@@ -25,16 +25,31 @@ const Statistics = (props) => {
     )
   } else {
     return (
-      <div>
-        good {props.good}<br />
-        neutral {props.neutral}<br />
-        bad {props.bad}<br />
-        all {sum}<br />
-        average {weightedSum / sum}<br />
-        positive {100 * props.good / sum} %<br />
-      </div>
+      <table>
+        <tbody>
+        <Statistic text="good" value={props.good} />
+        <Statistic text="neutral" value={props.neutral} />
+        <Statistic text="bad" value={props.bad} />
+        <Statistic text="all" value={sum} />
+        <Statistic text="average" value={weightedSum / sum} />
+        <Statistic text="positive" value={100 * props.good / sum} />
+        </tbody>
+      </table>
     )
   }
+}
+
+const Statistic = (props) => {
+  return (
+    <tr>
+      <td>
+        {props.text}
+      </td>
+      <td>
+        {props.value}{(props.text === "positive") ? " %" : null}
+      </td>
+    </tr>
+  )
 }
 
 const App = () => {
