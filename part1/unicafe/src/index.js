@@ -13,13 +13,22 @@ const Button = (props) => (
   </button>
 )
 
-const Statistics = (props) => (
-  <div>
-    good {props.good}<br />
-    neutral {props.neutral}<br />
-    bad {props.bad}<br />
-  </div>
-)
+const Statistics = (props) => {
+  const sum = props.good + props.neutral + props.bad
+  const weightedSum = props.good - props.bad
+
+
+  return (
+    <div>
+      good {props.good}<br />
+      neutral {props.neutral}<br />
+      bad {props.bad}<br />
+      all {sum}<br />
+      average {weightedSum / sum}<br />
+      positive {100 * props.good / sum} %<br />
+    </div>
+  )
+}
 
 const App = () => {
   // save clicks of each button to own state
