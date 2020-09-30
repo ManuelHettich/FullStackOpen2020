@@ -1,11 +1,23 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Country from './Country'
 
 const CountryList = ({matchingCountries}) => {
+    const [ shownCountries, setShownCountries ] = useState([])
+
+    const handleClick = (country) => () => {
+        if (shownCountries.includes(country)) {
+            setShownCountries(shownCountries.filter(element => element.name !== country.name))
+        } else {
+            setShownCountries(shownCountries.concat(country))
+        }
+    }
+
     return(
         <div>
-            {matchingCountries.map(country =>
+            { matchingCountries.map(country =>
                 <div key={country.name}>
-                    {country.name}<br/>
+                    { country.name } <button key={country.name} name={country} onClick={handleClick(country)}>show</button><br/>
+                    { shownCountries.includes(country) && <Country country={country} /> }
                 </div>)}
         </div>
         
