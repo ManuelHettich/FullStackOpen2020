@@ -50,6 +50,15 @@ const App = () => {
               setMessage(null)
             }, 5000)
           })
+          .catch(error => {
+            setStatus('error')
+            setMessage(`Information of ${prevPerson.name} has already been removed from server`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+            
+            setPersons(persons.filter(person => person.id !== prevPerson.id))
+          })
       }
     } else {
       const personObject = {

@@ -1,9 +1,5 @@
 import React from 'react'
 
-const style = {
-
-}
-
 const Notification = ({ message, status }) => {
     if (message === null) {
         return null
