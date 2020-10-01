@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Country from './Country'
 
-const CountryList = ({matchingCountries}) => {
+const CountryList = ({ matchingCountries }) => {
     const [ shownCountries, setShownCountries ] = useState([])
 
     const handleClick = (country) => () => {
@@ -16,11 +16,10 @@ const CountryList = ({matchingCountries}) => {
         <div>
             { matchingCountries.map(country =>
                 <div key={country.name}>
-                    { country.name } <button key={country.name} name={country} onClick={handleClick(country)}>show</button><br/>
+                    { country.name } <button key={country.name} onClick={handleClick(country)}>show</button><br/>
                     { shownCountries.includes(country) && <Country country={country} /> }
                 </div>)}
         </div>
-        
     )
 }
 
