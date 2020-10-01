@@ -40,9 +40,19 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
-          setPersons(persons.concat(personObject))
+          setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewNumber("")
+        })
+    }
+  }
+
+  const handleDeletionOf = (id) => {
+    if (window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
         })
     }
   }
@@ -68,7 +78,10 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons personsToShow={personsToShow} />
+      <Persons
+        personsToShow={personsToShow}
+        handleDeletion={handleDeletionOf}
+      />
     </div>
   )
 }
