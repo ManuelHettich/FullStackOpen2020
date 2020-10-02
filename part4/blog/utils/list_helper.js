@@ -1,4 +1,7 @@
-const dummy = (blogs) => {
+const groupBy = require('lodash/groupBy')
+const forIn = require('lodash/forIn')
+
+const dummy = () => {
   return 1
 }
 
@@ -21,6 +24,25 @@ const favoriteBlog = (blogs) => {
   }
 }
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return {}
+  } else {
+    // group entries by author
+    const blogsByAuthor = groupBy(blogs, blog => blog.author)
+    // create array with {author, blogs} entries
+    const authorsAndBlogs = []
+    forIn(blogsByAuthor, (value, key) => {
+      authorsAndBlogs.push({ author: key, blogs: value.length })
+    })
+
+    // return entry with most blogs
+    return authorsAndBlogs.reduce((mostBlogs, current) => {
+      return current.blogs > mostBlogs.blogs ? current : mostBlogs
+    })
+  }
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog
+  dummy, totalLikes, favoriteBlog, mostBlogs
 }
