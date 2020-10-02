@@ -14,6 +14,7 @@ beforeEach(async () => {
   }
 })
 
+
 describe('check database functionality', () => {
   test('blogs are returned as json', async () => {
     await api
@@ -76,6 +77,32 @@ describe('check database functionality', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(response.body.likes).toBe(0)
+  })
+
+  test('check error if title and url properties are missing', async () => {
+    const newBlogNoTitle = {
+      url: 'localhost'
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoTitle)
+      .expect(400)
+
+    const newBlogNoUrl = {
+      title: 'Test Blog Title #3'
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoUrl)
+      .expect(400)
+
+    const newBlogNoTitleNoUrl = {
+      author: 'Baz Foo'
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoTitleNoUrl)
+      .expect(400)
   })
 })
 
