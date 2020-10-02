@@ -1,4 +1,4 @@
-//const config = require('./utils/config')
+const config = require('./utils/config')
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -7,7 +7,7 @@ const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     logger.info('connected to MongoDB')
