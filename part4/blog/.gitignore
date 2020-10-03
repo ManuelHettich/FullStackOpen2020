@@ -352,3 +352,6 @@ MigrationBackup/
 # Local .env
 .env
 .env.local
+
+# Jetbrains
+/.idea
