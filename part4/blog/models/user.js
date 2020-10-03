@@ -1,7 +1,5 @@
-const { response } = require('express')
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
-const blog = require('./blog')
 
 const userSchema = new mongoose.Schema({
   username: {
