@@ -1,5 +1,7 @@
+const { response } = require('express')
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
+const blog = require('./blog')
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -15,7 +17,7 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog'
     }
-  ],
+  ]
 })
 
 userSchema.plugin(uniqueValidator)
