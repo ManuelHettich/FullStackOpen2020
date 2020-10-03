@@ -107,7 +107,6 @@ describe('check database functionality', () => {
 })
 
 
-
 afterAll(() => {
   mongoose.connection.close()
 })
