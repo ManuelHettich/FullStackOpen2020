@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZvb2JhcjIiLCJpZCI6IjVmNzhjNjhkZWY3Y2MwNGM4OGZiMDNlNyIsImlhdCI6MTYwMTc1MTcwMX0.YuAiBAuDg9Y0r4kBMoJRZsD-hZDYM1wf_D2oRXQGV3U
+
+{
+    "title": "Test Title #2",
+    "author": "Foo Bar 2",
+    "url": "localhost"
+}
