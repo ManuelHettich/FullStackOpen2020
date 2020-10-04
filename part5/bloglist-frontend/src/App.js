@@ -10,7 +10,8 @@ const App = () => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationStatus, setNotificationStatus] = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -43,9 +44,15 @@ const App = () => {
 
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
+
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')
+    setNotificationMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+    setNotificationStatus('success')
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 5000)
   }
 
   const handleLogin = async (event) => {
@@ -63,10 +70,16 @@ const App = () => {
 
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setNotificationMessage('successfully logged in')
+      setNotificationStatus('success')
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotificationMessage(null)
+      }, 3000)
+    } catch (exception) {
+      setNotificationMessage('wrong username or password')
+      setNotificationStatus('error')
+      setTimeout(() => {
+        setNotificationMessage(null)
       }, 5000)
     }
   }
@@ -74,6 +87,14 @@ const App = () => {
   const handleLogout = async () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    setNewBlogTitle('')
+    setNewBlogAuthor('')
+    setNewBlogUrl('')
+    setNotificationMessage('logged out')
+    setNotificationStatus('success')
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 3000)
   }
 
   const handleBlogTitleChange = event => {
@@ -107,7 +128,7 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
 
   const blogForm = () => (
@@ -139,7 +160,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <Notification message={notificationMessage} status={notificationStatus} />
         {loginForm()}
       </div>
     )
@@ -147,16 +168,18 @@ const App = () => {
     return (
       <div>
         <h2>Blogs</h2>
-        <Notification message={errorMessage} />
+        <Notification message={notificationMessage} status={notificationStatus} />
 
         <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
         <h2>create new</h2>
         {blogForm()}
 
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
+        <p>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </p>
       </div>
     )
   }
