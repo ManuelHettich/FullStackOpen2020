@@ -7,7 +7,9 @@ import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  //const [newBlog, setNewBlog] = useState('')
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
@@ -29,6 +31,22 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+
+    const blogObject = {
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl
+    }
+
+    const returnedBlog = await blogService.create(blogObject)
+    setBlogs(blogs.concat(returnedBlog))
+    setNewBlogTitle('')
+    setNewBlogAuthor('')
+    setNewBlogUrl('')
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -58,6 +76,18 @@ const App = () => {
     setUser(null)
   }
 
+  const handleBlogTitleChange = event => {
+    setNewBlogTitle(event.target.value)
+  }
+
+  const handleBlogAuthorChange = event => {
+    setNewBlogAuthor(event.target.value)
+  }
+
+  const handleBlogUrlChange = event => {
+    setNewBlogUrl(event.target.value)
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -80,6 +110,31 @@ const App = () => {
     </form>      
   )
 
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <label>
+        title: <input
+          value={newBlogTitle}
+          onChange={handleBlogTitleChange}
+        /><br/>
+      </label>
+      <label>
+        author: <input
+          value={newBlogAuthor}
+          onChange={handleBlogAuthorChange}
+        /><br/>
+      </label>
+      <label>
+        url: <input
+          value={newBlogUrl}
+          onChange={handleBlogUrlChange}
+        /><br/>
+      </label>
+      
+      <button type='submit'>create</button>
+    </form>
+  )
+
   if (user === null) {
     return (
       <div>
@@ -94,7 +149,10 @@ const App = () => {
         <h2>Blogs</h2>
         <Notification message={errorMessage} />
 
-    <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+        <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+
+        <h2>create new</h2>
+        {blogForm()}
 
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
