@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
     async function fetchData() {
       const initialBlogs = await blogService.getAll()
-      setBlogs(initialBlogs)
+      setBlogs(initialBlogs.sort((a, b) => b.likes - a.likes))
     }
     fetchData()
   }, [])
@@ -97,9 +97,9 @@ const App = () => {
 
     const returnedBlog = await blogService.update(blog.id, updatedBlog)
     setBlogs(
-      blogs.map((prevBlog) =>
-        prevBlog.id === blog.id ? returnedBlog : prevBlog
-      )
+      blogs
+        .map((prevBlog) => (prevBlog.id === blog.id ? returnedBlog : prevBlog))
+        .sort((a, b) => b.likes - a.likes)
     )
   }
 
