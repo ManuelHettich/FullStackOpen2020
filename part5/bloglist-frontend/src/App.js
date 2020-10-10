@@ -86,6 +86,23 @@ const App = () => {
     }, 3000)
   }
 
+  const handleLike = (blog) => async () => {
+    const updatedBlog = {
+      user: blog.user.id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+    }
+
+    const returnedBlog = await blogService.update(blog.id, updatedBlog)
+    setBlogs(
+      blogs.map((prevBlog) =>
+        prevBlog.id === blog.id ? returnedBlog : prevBlog
+      )
+    )
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -142,11 +159,11 @@ const App = () => {
 
         {blogForm()}
 
-        <p>
+        <div>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} handleLike={handleLike} />
           ))}
-        </p>
+        </div>
       </div>
     )
   }
