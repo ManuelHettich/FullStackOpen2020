@@ -72,9 +72,14 @@ describe('when logged in', function () {
       cy.createBlog(blog)
     })
 
-    it.only('it can be liked', function () {
+    it('it can be liked', function () {
       cy.get(':nth-child(1) > .blog > .blog-hide > button').click()
       cy.get(':nth-child(1) > .blog > .blog-show > .likeButton').click()
+    })
+
+    it('it can be deleted by its creator', function () {
+      cy.get(':nth-child(1) > .blog > .blog-hide > button').click()
+      cy.get(':nth-child(1) > .blog > .blog-show > :nth-child(7)').click()
     })
   })
 })
