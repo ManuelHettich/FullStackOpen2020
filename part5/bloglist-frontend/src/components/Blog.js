@@ -20,11 +20,11 @@ const Blog = ({ blog, username, handleLike, handleDelete }) => {
   }
 
   const viewDetails = () => (
-    <span>
-      <span style={hideWhenVisible}>
+    <span className="blog">
+      <span className="blog-hide" style={hideWhenVisible}>
         <button onClick={toggleVisibility}>view</button>
       </span>
-      <span style={showWhenVisible}>
+      <span className="blog-show" style={showWhenVisible}>
         <button onClick={toggleVisibility}>hide</button>
         <br />
         {blog.url}
@@ -32,7 +32,7 @@ const Blog = ({ blog, username, handleLike, handleDelete }) => {
         likes {blog.likes} <button onClick={handleLike(blog)}>like</button>
         <br />
         {blog.user.name}
-        <br /> {/*   */}
+        <br />
         {blog.user.username === username && (
           <button onClick={handleDelete(blog)}>remove</button>
         )}
