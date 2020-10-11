@@ -81,5 +81,19 @@ describe('when logged in', function () {
       cy.get(':nth-child(1) > .blog > .blog-hide > button').click()
       cy.get(':nth-child(1) > .blog > .blog-show > :nth-child(7)').click()
     })
+
+    it('they are sorted by likes', function () {
+      cy.get('.blog > .blog-hide > button').click({ multiple: true })
+      cy.get(':nth-child(3) > .blog > .blog-show > .likeButton').click()
+      cy.get(':nth-child(3) > .blog > .blog-show > .likeButton').click()
+      cy.get(':nth-child(3) > .blog > .blog-show > .likeButton').click()
+      cy.get(':nth-child(3) > .blog > .blog-show > .likeButton').click()
+      cy.get(':nth-child(3) > .blog > .blog-show > .likeButton').click()
+      cy.get(':nth-child(1) > .blog > .blog-show > .likeButton').click()
+
+      cy.get(':nth-child(4) > :nth-child(1)').should('contain', '3')
+      cy.get(':nth-child(4) > :nth-child(2)').should('contain', '2')
+      cy.get(':nth-child(4) > :nth-child(3)').should('contain', '1')
+    })
   })
 })
