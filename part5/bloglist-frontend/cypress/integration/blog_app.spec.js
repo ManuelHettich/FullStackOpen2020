@@ -40,6 +40,7 @@ describe('Blog app', function () {
         failOnStatusCode: false,
       }).then(function (response) {
         expect(response.status).to.eq(401)
+        cy.get('html').should('not.contain', 'Foo logged in')
       })
     })
   })
@@ -48,5 +49,16 @@ describe('Blog app', function () {
 describe('when logged in', function () {
   beforeEach(function () {
     cy.login({ username: 'foo', password: 'bar' })
+  })
+
+  it('A blog can be created', function () {
+    cy.contains('new blog').click()
+    cy.get('#title').type('a blog created by cypress')
+    cy.get('#author').type('Baz')
+    cy.get('#url').type('localhost')
+    cy.get('#blog-form-button').click()
+
+    cy.contains('a blog created by cypress')
+    cy.contains('Baz')
   })
 })
