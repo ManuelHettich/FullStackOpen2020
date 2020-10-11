@@ -61,4 +61,20 @@ describe('when logged in', function () {
     cy.contains('a blog created by cypress')
     cy.contains('Baz')
   })
+
+  describe('and a blog exists', function () {
+    beforeEach(function () {
+      const blog = {
+        title: 'a blog created by cypress',
+        author: 'Baz',
+        url: 'localhost',
+      }
+      cy.createBlog(blog)
+    })
+
+    it.only('it can be liked', function () {
+      cy.get(':nth-child(1) > .blog > .blog-hide > button').click()
+      cy.get(':nth-child(1) > .blog > .blog-show > .likeButton').click()
+    })
+  })
 })
