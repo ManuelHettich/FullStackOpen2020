@@ -5,6 +5,8 @@ import Blog from './Blog'
 
 describe('<Blog />', () => {
   let component
+  let mockHandlerLike
+  let mockHandlerDelete
 
   beforeEach(() => {
     const blog = {
@@ -18,14 +20,15 @@ describe('<Blog />', () => {
       },
     }
 
-    const mockHandler = jest.fn()
+    mockHandlerLike = jest.fn()
+    mockHandlerDelete = jest.fn()
 
     component = render(
       <Blog
         blog={blog}
         username="foo"
-        handleLike={mockHandler}
-        handleDelete={mockHandler}
+        handleLike={() => mockHandlerLike}
+        handleDelete={mockHandlerDelete}
       />
     )
   })
@@ -50,5 +53,13 @@ describe('<Blog />', () => {
     expect(span_show).not.toHaveStyle('display: none')
     const span_hide = component.container.querySelector('.blog-hide')
     expect(span_hide).toHaveStyle('display: none')
+  })
+
+  test('handleLike is called twice when like button clicked twice', () => {
+    const button = component.container.querySelector('.likeButton')
+    fireEvent.click(button)
+    fireEvent.click(button)
+
+    expect(mockHandlerLike.mock.calls).toHaveLength(2)
   })
 })
